@@ -11,7 +11,7 @@
   "author": "Mayank Joshi",
   "license": "MIT",
   "dependencies": {
-    "@google/genai": "^1.7.0",
+    "@google/genai": "^1.8.0",
     "cors": "^2.8.5",
     "dotenv": "^17.0.1",
     "express": "^5.1.0"
