@@ -1,8 +1,10 @@
+ 
 import type React from "react"
 
 import { useState, useRef, useEffect } from "react"
 import { Send, Sparkles } from "lucide-react"
 import type { ChatMessage } from "../types"
+import AnimationLoader from "./AnimationLoader"
 import "./ChatPanel.css"
 
 interface ChatPanelProps {
@@ -47,6 +49,27 @@ const ChatPanel = ({ messages, onSendMessage, isGenerating }: ChatPanelProps) =>
     "Create a morphing shape",
   ]
 
+  const loadingMessages = [
+    "Crafting your animation magic...",
+    "Mixing colors and motion...",
+    "Bringing pixels to life...",
+    "Weaving animation spells...",
+    "Creating visual poetry...",
+    "Animating your imagination...",
+  ]
+
+  const [currentLoadingMessage, setCurrentLoadingMessage] = useState(loadingMessages[0])
+
+  useEffect(() => {
+    if (isGenerating) {
+      const interval = setInterval(() => {
+        setCurrentLoadingMessage(loadingMessages[Math.floor(Math.random() * loadingMessages.length)])
+      }, 2000)
+
+      return () => clearInterval(interval)
+    }
+  }, [isGenerating])
+
   return (
     <div className="chat-panel">
       <div className="chat-header">
@@ -70,14 +93,10 @@ const ChatPanel = ({ messages, onSendMessage, isGenerating }: ChatPanelProps) =>
         ))}
 
         {isGenerating && (
-          <div className="message assistant">
+          <div className="message assistant generating">
             <div className="message-avatar">🤖</div>
             <div className="message-content">
-              <div className="typing-indicator">
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
+              <AnimationLoader message={currentLoadingMessage} />
             </div>
           </div>
         )}
@@ -85,7 +104,7 @@ const ChatPanel = ({ messages, onSendMessage, isGenerating }: ChatPanelProps) =>
         <div ref={messagesEndRef} />
       </div>
 
-      {inputValue.trim() ==="" &&!isGenerating &&(
+    {messages.length > 0 && !isGenerating && inputValue.trim() === "" && (
         <div className="suggested-prompts">
           <div className="prompts-title">Try these prompts:</div>
           {suggestedPrompts.map((prompt, index) => (
@@ -94,7 +113,7 @@ const ChatPanel = ({ messages, onSendMessage, isGenerating }: ChatPanelProps) =>
               className="prompt-suggestion"
               onClick={() => !isGenerating && onSendMessage(prompt)}
               disabled={isGenerating}
-            > 
+            >
               {prompt}
             </button>
           ))}
@@ -113,8 +132,18 @@ const ChatPanel = ({ messages, onSendMessage, isGenerating }: ChatPanelProps) =>
             rows={1}
             disabled={isGenerating}
           />
-          <button type="submit" className="send-button" disabled={!inputValue.trim() || isGenerating}>
-            <Send size={16} />
+          <button
+            type="submit"
+            className={`send-button ${isGenerating ? "generating" : ""}`}
+            disabled={!inputValue.trim() || isGenerating}
+          >
+            {isGenerating ? (
+              <div className="button-loader">
+                <div className="spinner"></div>
+              </div>
+            ) : (
+              <Send size={16} />
+            )}
           </button>
         </div>
       </form>

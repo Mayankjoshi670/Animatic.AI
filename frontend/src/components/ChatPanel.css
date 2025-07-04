@@ -37,6 +37,10 @@
   align-items: flex-start;
 }
 
+.message.generating {
+  align-items: center;
+}
+
 .message-avatar {
   width: 32px;
   height: 32px;
@@ -72,42 +76,6 @@
   color: #888888;
   font-size: 12px;
   margin-top: 4px;
-}
-
-.typing-indicator {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  padding: 8px 0;
-}
-
-.typing-indicator span {
-  width: 6px;
-  height: 6px;
-  background-color: #888888;
-  border-radius: 50%;
-  animation: typing 1.4s infinite ease-in-out;
-}
-
-.typing-indicator span:nth-child(1) {
-  animation-delay: -0.32s;
-}
-
-.typing-indicator span:nth-child(2) {
-  animation-delay: -0.16s;
-}
-
-@keyframes typing {
-  0%,
-  80%,
-  100% {
-    transform: scale(0.8);
-    opacity: 0.5;
-  }
-  40% {
-    transform: scale(1);
-    opacity: 1;
-  }
 }
 
 .suggested-prompts {
@@ -173,11 +141,17 @@
   min-height: 44px;
   max-height: 120px;
   font-family: inherit;
+  transition: border-color 0.2s;
 }
 
 .chat-input:focus {
   outline: none;
   border-color: #667eea;
+}
+
+.chat-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 .chat-input::placeholder {
@@ -195,16 +169,59 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s;
+  transition: all 0.2s;
   flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
 }
 
 .send-button:hover:not(:disabled) {
   background-color: #5a6fd8;
+  transform: scale(1.05);
 }
 
 .send-button:disabled {
   background-color: #2a2a2a;
   color: #666666;
   cursor: not-allowed;
+  transform: none;
+}
+
+.send-button.generating {
+  background: linear-gradient(45deg, #667eea, #764ba2);
+  animation: buttonPulse 2s ease-in-out infinite;
+}
+
+@keyframes buttonPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(118, 75, 162, 0.8);
+  }
+}
+
+.button-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

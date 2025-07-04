@@ -1,0 +1,374 @@
+.animation-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+  border-radius: 12px;
+  margin: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.animation-loader::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 70%, rgba(102, 126, 234, 0.1), transparent 50%),
+    radial-gradient(circle at 70% 30%, rgba(118, 75, 162, 0.1), transparent 50%);
+  pointer-events: none;
+  animation: backgroundShift 4s ease-in-out infinite;
+}
+
+@keyframes backgroundShift {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.loader-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 2rem;
+}
+
+/* Spinning rings */
+.loader-rings {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  animation: spin 3s linear infinite;
+}
+
+.ring-1 {
+  width: 100%;
+  height: 100%;
+  border-top: 2px solid #667eea;
+  border-right: 2px solid #667eea;
+  animation-duration: 2s;
+}
+
+.ring-2 {
+  width: 80%;
+  height: 80%;
+  top: 10%;
+  left: 10%;
+  border-left: 2px solid #764ba2;
+  border-bottom: 2px solid #764ba2;
+  animation-duration: 1.5s;
+  animation-direction: reverse;
+}
+
+.ring-3 {
+  width: 60%;
+  height: 60%;
+  top: 20%;
+  left: 20%;
+  border-top: 2px solid #ff6b6b;
+  border-right: 2px solid #ff6b6b;
+  animation-duration: 1s;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Central core */
+.loader-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+}
+
+.core-inner {
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, #667eea, #764ba2);
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.core-dot {
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  animation: corePulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+  }
+  50% {
+    transform: scale(1.2);
+    box-shadow: 0 0 30px rgba(118, 75, 162, 0.8);
+  }
+}
+
+@keyframes corePulse {
+  0% {
+    opacity: 0.6;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* Orbiting particles */
+.particles {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #ff6b6b;
+  border-radius: 50%;
+  animation: orbit 4s linear infinite;
+}
+
+.particle-1 {
+  top: 10px;
+  left: 50%;
+  background: #667eea;
+  animation-delay: 0s;
+}
+
+.particle-2 {
+  top: 50%;
+  right: 10px;
+  background: #764ba2;
+  animation-delay: -0.7s;
+}
+
+.particle-3 {
+  bottom: 10px;
+  left: 50%;
+  background: #ff6b6b;
+  animation-delay: -1.4s;
+}
+
+.particle-4 {
+  top: 50%;
+  left: 10px;
+  background: #4ecdc4;
+  animation-delay: -2.1s;
+}
+
+.particle-5 {
+  top: 25%;
+  right: 25%;
+  background: #45b7d1;
+  animation-delay: -2.8s;
+}
+
+.particle-6 {
+  bottom: 25%;
+  left: 25%;
+  background: #f9ca24;
+  animation-delay: -3.5s;
+}
+
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateX(50px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(50px) rotate(-360deg);
+  }
+}
+
+/* Floating elements */
+.floating-elements {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.float-element {
+  position: absolute;
+  font-size: 20px;
+  animation: float 3s ease-in-out infinite;
+  opacity: 0.7;
+}
+
+.element-1 {
+  top: 20%;
+  left: 20%;
+  animation-delay: 0s;
+}
+
+.element-2 {
+  top: 20%;
+  right: 20%;
+  animation-delay: -0.5s;
+}
+
+.element-3 {
+  bottom: 20%;
+  left: 20%;
+  animation-delay: -1s;
+}
+
+.element-4 {
+  bottom: 20%;
+  right: 20%;
+  animation-delay: -1.5s;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(-20px) rotate(180deg);
+    opacity: 1;
+  }
+}
+
+/* Loading text */
+.loader-text {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.text-content {
+  animation: textGlow 2s ease-in-out infinite alternate;
+}
+
+.cursor {
+  animation: blink 1s infinite;
+  color: #667eea;
+  font-weight: bold;
+}
+
+@keyframes textGlow {
+  0% {
+    text-shadow: 0 0 5px rgba(102, 126, 234, 0.5);
+  }
+  100% {
+    text-shadow: 0 0 20px rgba(118, 75, 162, 0.8), 0 0 30px rgba(102, 126, 234, 0.5);
+  }
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Progress bar */
+.progress-container {
+  width: 200px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #667eea, #764ba2, #ff6b6b, #4ecdc4);
+  background-size: 200% 100%;
+  border-radius: 2px;
+  animation: progressFill 3s ease-in-out infinite, progressShine 2s linear infinite;
+  width: 0%;
+}
+
+@keyframes progressFill {
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 70%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes progressShine {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .loader-container {
+    width: 100px;
+    height: 100px;
+  }
+
+  .loader-text {
+    font-size: 14px;
+  }
+
+  .progress-container {
+    width: 150px;
+  }
+}

@@ -1,7 +1,7 @@
 {
-  "type": "3D",
-  "visual_features": ["rotating", "cube", "3D"],
-  "required_interactions": [],
-  "colors": ["#FFFFFF", "#808080"],
-  "dimensions": [600, 400]
+  "type": "geometric",
+  "visual_features": ["morphing", "gradient background"],
+  "required_interactions": ["mouse"],
+  "color_palette": ["#29ABE2", "#FFFFFF"],
+  "canvas_dimensions": [800, 600]
 }
