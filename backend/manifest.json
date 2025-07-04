@@ -1,12 +1,8 @@
-```json
 {
-  "type": "dialogue",
-  "characters": 2,
-  "lines": 4,
-  "visual_features": ["anime style", "speech bubbles", "blinking"],
+  "type": "weather",
+  "elements": ["sun", "clouds", "rain"],
+  "visual_features": ["animation", "parallax"],
   "required_interactions": ["mouse click"],
-  "colors": ["#FCE77D", "#90EE90", "#FFFFFF", "#000000"],
-  "dimensions": [800, 600],
-  "dialogue_topic": "Pizza Preferences"
+  "colors": ["yellow", "white", "blue", "gray"],
+  "dimensions": [800, 600]
 }
-```

@@ -1,114 +1,137 @@
-```javascript
-let character1, character2;
-let currentLine = 0;
-let font;
-
-let dialogue = [
-  "I love pepperoni pizza!",
-  "Really? I prefer vegetarian.",
-  "Vegetarian? That's so healthy!",
-  "Yeah, but it still tastes great!"
-];
-
-function preload() {
-    font = loadFont('https://cdnjs.cloudflare.com/ajax/libs/topcoat/0.8.0/font/SourceCodePro-Regular.otf');
-}
-
+let sun;
+let clouds = [];
+let raindrops = [];
+let isRaining = false;
 
 function setup() {
   createCanvas(800, 600);
-  textFont(font);
-  textSize(20);
-  textAlign(CENTER, CENTER);
-
-  character1 = new Character(200, 400, color(252, 231, 125), "Character 1"); // Light Yellow
-  character2 = new Character(600, 400, color(144, 238, 144), "Character 2"); // Light Green
+  sun = new Sun();
+  for (let i = 0; i < 3; i++) {
+    clouds.push(new Cloud(random(width, width * 2), random(50, 200)));
+  }
 }
 
 function draw() {
-  background(173, 216, 230); // Light Blue Background
+  // Sky gradient background
+  background(135, 206, 235); // Light blue
 
-  character1.update();
-  character1.display();
-  character2.update();
-  character2.display();
+  sun.update();
+  sun.display();
 
-  // Display Speech Bubble and Dialogue
-  if (currentLine < dialogue.length) {
-    displaySpeechBubble(width / 2, 150, dialogue[currentLine]);
+  clouds.forEach(cloud => {
+    cloud.update();
+    cloud.display();
+    if (isRaining && cloud.isNearMouse(mouseX, mouseY)) {
+      cloud.rain(); // Start raining only from the clicked cloud
+    }
+  });
+  
+  // Update and display raindrops
+  for (let i = raindrops.length - 1; i >= 0; i--) {
+    raindrops[i].update();
+    raindrops[i].display();
+    if (raindrops[i].isOffscreen()) {
+      raindrops.splice(i, 1); // Remove raindrops that are offscreen
+    }
   }
 }
 
 function mousePressed() {
-  currentLine++;
-  if (currentLine >= dialogue.length) {
-    currentLine = 0; // Reset dialogue
-  }
+  // Toggle rain state globally (can be modified to target specific clouds)
+  isRaining = true;
 }
 
-class Character {
-  constructor(x, y, color, name) {
-    this.x = x;
-    this.y = y;
-    this.color = color;
-    this.name = name;
-    this.blinking = false;
-    this.blinkTimer = 0;
-    this.eyeOpen = true;
+function mouseReleased() {
+    isRaining = false;
+}
+
+
+class Sun {
+  constructor() {
+    this.x = -50;
+    this.y = 200;
+    this.radius = 50;
+    this.color = color(255, 255, 0); // Yellow
   }
 
   update() {
-    // Blinking Logic
-    if (this.blinking) {
-      this.blinkTimer++;
-      if (this.blinkTimer > 5) {
-        this.eyeOpen = true;
-        this.blinking = false;
-        this.blinkTimer = 0;
-      }
-    } else {
-      if (random(1) < 0.005) { // 0.5% chance to blink
-        this.blinking = true;
-        this.eyeOpen = false;
-      }
+    // Simple sunrise animation from left to center
+    this.x = lerp(this.x, width / 2, 0.005); // Ease towards the center
+  }
+
+  display() {
+    fill(this.color);
+    noStroke();
+    ellipse(this.x, this.y, this.radius * 2, this.radius * 2);
+  }
+}
+
+
+class Cloud {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.speed = random(0.5, 1.5);
+    this.cloudColor = color(255, 255, 255, 200); // Semi-transparent white
+    this.raindrops = []; // Raindrops specific to this cloud
+  }
+
+  update() {
+    this.x -= this.speed;
+    if (this.x < -100) {
+      this.x = width + 100; // Reset position when offscreen
     }
   }
 
   display() {
-    // Body
-    fill(this.color);
-    ellipse(this.x, this.y, 80, 120);
-
-    // Eyes
-    fill(255);
-    if (this.eyeOpen) {
-      ellipse(this.x - 15, this.y - 20, 20, 20);
-      ellipse(this.x + 15, this.y - 20, 20, 20);
-      fill(0);
-      ellipse(this.x - 15, this.y - 20, 5, 5);
-      ellipse(this.x + 15, this.y - 20, 5, 5);
-    } else {
-      // Closed Eyes
-      line(this.x - 25, this.y - 20, this.x - 5, this.y - 20);
-      line(this.x + 25, this.y - 20, this.x + 5, this.y - 20);
+    fill(this.cloudColor);
+    noStroke();
+    ellipse(this.x, this.y, 80, 60);
+    ellipse(this.x + 30, this.y + 10, 70, 50);
+    ellipse(this.x - 30, this.y + 10, 60, 40);
+  }
+  
+    isNearMouse(mx, my) {
+        let d = dist(mx, my, this.x, this.y);
+        return d < 50;
     }
-    // Name
-    fill(0);
-    text(this.name, this.x, this.y + 80);
+
+  rain() {
+    // Create a new raindrop
+      if (frameCount % 5 === 0) {
+          this.raindrops.push(new Raindrop(this.x + random(-20, 20), this.y + 30));
+      }
+      
+        for (let i = this.raindrops.length - 1; i >= 0; i--) {
+            this.raindrops[i].update();
+            this.raindrops[i].display();
+            if (this.raindrops[i].isOffscreen()) {
+                this.raindrops.splice(i, 1); // Remove raindrops that are offscreen
+            }
+        }
   }
 }
 
-function displaySpeechBubble(x, y, text) {
-  push();
-  fill(255);
-  stroke(0);
-  strokeWeight(2);
-  rectMode(CENTER);
-  rect(x, y, 300, 80, 15);
 
-  fill(0);
-  noStroke();
-  text(text, x, y);
-  pop();
+class Raindrop {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.speed = random(5, 10);
+    this.length = random(10, 20);
+  }
+
+  update() {
+    this.y += this.speed;
+  }
+
+  display() {
+    stroke(0, 0, 255); // Blue
+    strokeWeight(2);
+    line(this.x, this.y, this.x, this.y + this.length);
+  }
+
+  isOffscreen() {
+    return this.y > height;
+  }
 }
-```

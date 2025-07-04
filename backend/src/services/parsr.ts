@@ -1,29 +1,44 @@
-export default function parseAnimationOutput(output: any): any {
+interface ParsedOutput {
+  html: string;
+  js: string;
+  manifest: string | null;
+}
+
+export default function parseAnimationOutput(output: string): ParsedOutput {
   if (typeof output !== 'string') {
-    console.error("Invalid output:", output);
     throw new Error("Output must be a string");
   }
 
   const patterns = {
-    html: /===BEGIN HTML===\n([\s\S]*?)\n===END HTML===/,
-    js: /===BEGIN JS===\n([\s\S]*?)\n===END JS===/,
-    manifest: /===BEGIN MANIFEST===\n([\s\S]*?)\n===END MANIFEST===/
+    html: /(?:```html\n)?===BEGIN HTML===\n([\s\S]*?)\n===END HTML===(?:\n```)?/,
+    js: /(?:```javascript\n)?===BEGIN JS===\n([\s\S]*?)\n===END JS===(?:\n```)?/,
+    manifest: /(?:```json\n)?===BEGIN MANIFEST===\n([\s\S]*?)\n===END MANIFEST===(?:\n```)?/
   };
 
-  const result = {
-    html: extract(output, patterns.html),
-    js: extract(output, patterns.js),
-    manifest: extract(output, patterns.manifest)
-  };
+  const html = extract(output, patterns.html);
+  const js = extract(output, patterns.js);
+  const manifest = extract(output, patterns.manifest);
 
-  if (!result.html || !result.js) {
+  if (!html || !js) {
     throw new Error("Failed to parse required files from output");
   }
 
-  return result;
+  return {
+    html: cleanContent(html),
+    js: cleanContent(js),
+    manifest: manifest ? cleanContent(manifest) : null
+  };
 }
 
 function extract(text: string, pattern: RegExp): string | null {
   const match = text.match(pattern);
   return match ? match[1].trim() : null;
+}
+
+function cleanContent(content: string): string {
+  return content
+    .replace(/^```[a-z]*\n/, '')
+    .replace(/\n```$/, '')
+    .replace(/^\/\/.*$/gm, '')
+    .trim();
 }

@@ -1,37 +1,26 @@
-.env
-node_modules# Node modules
-node_modules/
+# Environment files (ignore .env files anywhere)
+**/.env
+**/.env.*.local
 
- 
-logs/
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
- 
- 
- 
-.npm/
- 
- 
-.env
-.env.*.local
+# Node modules (anywhere)
+**/node_modules/
 
- 
+# Logs (anywhere)
+**/logs/
+**/*.log
+**/npm-debug.log*
+**/yarn-debug.log*
+**/yarn-error.log*
 
- 
+# NPM Cache
+**/.npm/
 
-# build output
-dist/
-build/
+# Build outputs (dist and build folders anywhere)
+**/dist/
+**/build/
 
-# TypeScript
-*.tsbuildinfo
+# TypeScript build info
+**/*.tsbuildinfo
 
- 
-.vscode/
- 
-
- 
-
- 
+# VSCode configs (anywhere)
+**/.vscode/
