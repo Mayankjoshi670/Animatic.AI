@@ -175,18 +175,43 @@ Users can extract files by:
 19. All animations and UI elements must look clean and modern — avoid overly basic geometry.
 20. Maintain code clarity — indentation, spacing, and readability must be excellent.
 
+
+=== ERROR PREVENTION RULES ===
+1. Never use variable or parameter names that shadow core p5.js functions or global methods (e.g., "text", "line", "ellipse", "rect", "mousePressed").
+   - Example: Avoid "function showSpeechBubble(text)" → use "bubbleText" instead.
+   - Reason: Shadowing these names causes runtime errors like "text is not a function".
+2. Always verify that object methods and fields are accessed safely and that objects are properly instantiated before use.
+3. Prevent reference errors by checking that all variables used in draw/setup are initialized.
+4. Avoid typos in function names like "textSize", "textAlign", "createCanvas" — these must match exactly.
+
+==== Errors to remember === 
+while creating this project there can me these error that are normal to com remeber these 
+1. Uncaught TypeError: text is not a function
+2. p5.js:60163 Uncaught TypeError: Cannot read properties of undefined (reading 'functionName')
+3. make sure everthing works fine 
+
+=== Common Errors to Avoid ===
+1. ❌ "Uncaught TypeError: text is not a function" — This happens when you shadow "text()" by naming a variable or parameter "text". ✅ Always use alternative names like "bubbleText", "displayText", etc.
+2. ❌ "Cannot read properties of undefined" — Ensure all objects and functions are defined and initialized before calling methods on them.
+3. ✅ Always validate the full execution of "setup()" and "draw()
+ — check for null references, typos, or misused p5.js methods.
+
+
 Always aim for a delightful, dynamic visual experience. Make animations feel alive and responsive.`;
 
 
 
    
 async function animationCode( prompt : string) {
-  const response = await ai.models.generateContentStream({
+  const completePrompt =   `${systemPrompt} \n\n user Prompt : ${prompt}` ; 
+  console.log(completePrompt) ;  
+   const response = await ai.models.generateContentStream({
     model: 'gemini-2.0-flash-001',
     contents:[ 
         {
             role: "user" , 
-            parts:[{text : `${systemPrompt} \n\nUser Prompt : ${prompt}`}]
+           
+            parts:[{text : completePrompt}]
         }]
          
   });

@@ -66,250 +66,54 @@ function App() {
     setIsGenerating(true)
 
     // Simulate AI response with animation generation
-    setTimeout(() => {
-      const assistantMessage: ChatMessage = {
-        id: (Date.now() + 1).toString(),
-        type: "assistant",
-        content: "I've generated a new animation based on your request! Check the preview panel to see the result.",
-        timestamp: new Date(),
-      }
+    try {
+  const response =  
+  // await fetch("/api/generate-animation", {
+  await fetch("http://localhost:5000/api/animations/generate",{
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ prompt: message }),
+  })
 
-      // Generate simple animation based on keywords
-      const generatedFiles = generateAnimationFromPrompt(message)
-      setFiles(generatedFiles)
-      setPreviewKey((prev) => prev + 1)
-
-      setChatMessages((prev) => [...prev, assistantMessage])
-      setIsGenerating(false)
-    }, 2000)
+  if (!response.ok) {
+    throw new Error("Failed to generate animation")
   }
 
-  const generateAnimationFromPrompt = (prompt: string): Record<FileType, string> => {
-    const lowerPrompt = prompt.toLowerCase()
+  const data = await response.json()
 
-    if (lowerPrompt.includes("ball") || lowerPrompt.includes("bounce")) {
-      return {
-        "index.html": `<div class="container">
-  <div class="bouncing-ball"></div>
-  <h1>Bouncing Ball Animation</h1>
-</div>`,
-        "style.css": `body {
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  font-family: Arial, sans-serif;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  color: white;
-}
-
-.bouncing-ball {
-  width: 60px;
-  height: 60px;
-  background: radial-gradient(circle at 30% 30%, #ff6b6b, #ee5a52);
-  border-radius: 50%;
-  animation: bounce 1.5s infinite ease-in-out;
-  margin-bottom: 2rem;
-  box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
-}
-
-@keyframes bounce {
-  0%, 100% {
-    transform: translateY(0);
+  const assistantMessage: ChatMessage = {
+    id: (Date.now() + 1).toString(),
+    type: "assistant",
+    content: data.message || "I've generated a new animation based on your request!",
+    timestamp: new Date(),
   }
-  50% {
-    transform: translateY(-100px);
+
+  // Assuming backend returns files as: { html, css, js }
+  setFiles({
+    "index.html": data.html || "",
+    "style.css": data.css || "",
+    "script.js": data.js || "", 
+  })
+  setPreviewKey((prev) => prev + 1)
+  setChatMessages((prev) => [...prev, assistantMessage])
+} catch (error) {
+  console.error(error)
+  const errorMessage: ChatMessage = {
+    id: (Date.now() + 2).toString(),
+    type: "assistant",
+    content: "Sorry, something went wrong. Please try again.",
+    timestamp: new Date(),
   }
+  setChatMessages((prev) => [...prev, errorMessage])
+} finally {
+  setIsGenerating(false)
 }
 
-h1 {
-  text-align: center;
-  font-size: 2rem;
-  margin: 0;
-}`,
-        "script.js": `console.log('Bouncing ball animation loaded!');
+  }
 
-document.addEventListener('DOMContentLoaded', function() {
-  const ball = document.querySelector('.bouncing-ball');
   
-  ball.addEventListener('click', function() {
-    this.style.animationDuration = '0.5s';
-    setTimeout(() => {
-      this.style.animationDuration = '1.5s';
-    }, 2000);
-  });
-});`,
-      }
-    }
-
-    if (lowerPrompt.includes("cube") || lowerPrompt.includes("rotate")) {
-      return {
-        "index.html": `<div class="container">
-  <div class="rotating-cube">
-    <div class="face front">1</div>
-    <div class="face back">2</div>
-    <div class="face right">3</div>
-    <div class="face left">4</div>
-    <div class="face top">5</div>
-    <div class="face bottom">6</div>
-  </div>
-  <h1>3D Rotating Cube</h1>
-</div>`,
-        "style.css": `body {
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
-  font-family: Arial, sans-serif;
-  perspective: 1000px;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  color: white;
-}
-
-.rotating-cube {
-  width: 100px;
-  height: 100px;
-  position: relative;
-  transform-style: preserve-3d;
-  animation: rotate 4s infinite linear;
-  margin-bottom: 2rem;
-}
-
-.face {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 2px solid #00d4ff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
-  font-weight: bold;
-  color: #00d4ff;
-  backdrop-filter: blur(10px);
-}
-
-.front { transform: rotateY(0deg) translateZ(50px); }
-.back { transform: rotateY(180deg) translateZ(50px); }
-.right { transform: rotateY(90deg) translateZ(50px); }
-.left { transform: rotateY(-90deg) translateZ(50px); }
-.top { transform: rotateX(90deg) translateZ(50px); }
-.bottom { transform: rotateX(-90deg) translateZ(50px); }
-
-@keyframes rotate {
-  0% { transform: rotateX(0deg) rotateY(0deg); }
-  100% { transform: rotateX(360deg) rotateY(360deg); }
-}
-
-h1 {
-  text-align: center;
-  font-size: 2rem;
-  margin: 0;
-}`,
-        "script.js": `console.log('3D Cube animation loaded!');
-
-document.addEventListener('DOMContentLoaded', function() {
-  const cube = document.querySelector('.rotating-cube');
-  
-  cube.addEventListener('click', function() {
-    this.style.animationDuration = '1s';
-    setTimeout(() => {
-      this.style.animationDuration = '4s';
-    }, 3000);
-  });
-});`,
-      }
-    }
-
-    // Default response for other prompts
-    return {
-      "index.html": `<div class="container">
-  <div class="animated-element">
-    <div class="pulse-circle"></div>
-  </div>
-  <h1>Custom Animation</h1>
-  <p>Generated from: "${prompt}"</p>
-</div>`,
-      "style.css": `body {
-  margin: 0;
-  padding: 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  font-family: Arial, sans-serif;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  color: white;
-  text-align: center;
-}
-
-.animated-element {
-  margin-bottom: 2rem;
-}
-
-.pulse-circle {
-  width: 80px;
-  height: 80px;
-  background: radial-gradient(circle, #ff6b6b, #ee5a52);
-  border-radius: 50%;
-  animation: pulse 2s infinite ease-in-out;
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-p {
-  font-size: 1rem;
-  opacity: 0.8;
-}`,
-      "script.js": `console.log('Custom animation generated!');
-
-document.addEventListener('DOMContentLoaded', function() {
-  const element = document.querySelector('.pulse-circle');
-  
-  element.addEventListener('click', function() {
-    this.style.background = 'radial-gradient(circle, #4ecdc4, #44a08d)';
-    setTimeout(() => {
-      this.style.background = 'radial-gradient(circle, #ff6b6b, #ee5a52)';
-    }, 1000);
-  });
-});`,
-    }
-  }
 
   if (isPreviewFullscreen) {
     return (

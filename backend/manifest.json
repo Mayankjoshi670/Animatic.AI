@@ -1,8 +1,7 @@
 {
-  "type": "weather",
-  "elements": ["sun", "clouds", "rain"],
-  "visual_features": ["animation", "parallax"],
-  "required_interactions": ["mouse click"],
-  "colors": ["yellow", "white", "blue", "gray"],
-  "dimensions": [800, 600]
+  "type": "3D",
+  "visual_features": ["rotating", "cube", "3D"],
+  "required_interactions": [],
+  "colors": ["#FFFFFF", "#808080"],
+  "dimensions": [600, 400]
 }

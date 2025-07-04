@@ -85,7 +85,7 @@ const ChatPanel = ({ messages, onSendMessage, isGenerating }: ChatPanelProps) =>
         <div ref={messagesEndRef} />
       </div>
 
-      {messages.length === 1 && (
+      {inputValue.trim() ==="" &&!isGenerating &&(
         <div className="suggested-prompts">
           <div className="prompts-title">Try these prompts:</div>
           {suggestedPrompts.map((prompt, index) => (
@@ -94,7 +94,7 @@ const ChatPanel = ({ messages, onSendMessage, isGenerating }: ChatPanelProps) =>
               className="prompt-suggestion"
               onClick={() => !isGenerating && onSendMessage(prompt)}
               disabled={isGenerating}
-            >
+            > 
               {prompt}
             </button>
           ))}

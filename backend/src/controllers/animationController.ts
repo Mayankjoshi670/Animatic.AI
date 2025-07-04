@@ -12,7 +12,7 @@ export const generateCode = async (req: Request, res: Response) => {
     console.log("now parsing and generating file")
     //  send this code to parser which is in parser.ts 
 
-try {
+ 
   const { html, js, manifest } = parseAnimationOutput(llmOutput);
   
   // Save to files (Node.js example)
@@ -24,13 +24,14 @@ try {
   }
   
   console.log('Files saved successfully!');
-} catch (error) {
-  console.error('Error:', (error as Error ).message  );
-}
+ 
     
-      res.status(200).json({ success: true, llmOutput });
+      res.status(200).json({ 
+        html , 
+        js , manifest
+       });
   } catch (error) {
     console.error(error);
-      res.status(500).json({ message: "Something went wrong" });
+      res.status(500).json({ message: "Failed to generate animation", error});
   }
 };
