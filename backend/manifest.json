@@ -1,10 +1,12 @@
 ```json
 {
-  "type": "weather",
-  "elements": ["sun", "clouds", "rain"],
-  "interaction": "mouse click",
-  "colors": ["yellow", "white", "lightblue", "gray"],
-  "dimensions": [600, 400],
-  "features": ["animation", "conditional rendering"]
+  "type": "dialogue",
+  "characters": 2,
+  "lines": 4,
+  "visual_features": ["anime style", "speech bubbles", "blinking"],
+  "required_interactions": ["mouse click"],
+  "colors": ["#FCE77D", "#90EE90", "#FFFFFF", "#000000"],
+  "dimensions": [800, 600],
+  "dialogue_topic": "Pizza Preferences"
 }
 ```
