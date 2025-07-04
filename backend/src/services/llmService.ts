@@ -118,18 +118,17 @@ async function animationCode( prompt : string) {
     model: 'gemini-2.0-flash-001',
     contents:[ 
         {
-            role: "system" , 
-            parts : [{text :   `${systemPrompt}`}]
-        },{
             role: "user" , 
-            parts:[{text : `${prompt}`}]
+            parts:[{text : `${systemPrompt} \n\nUser Prompt : ${prompt}`}]
         }]
-        
-        // 'write complte react code to build complte website of portfloio '],
+         
   });
+  let fulloutput = "" ; 
   for await (const chunk of response) {
+    fulloutput+= chunk.text ||"" ; 
     console.log(chunk.text);
   }
+  return fulloutput ; 
 }
 
 export  { animationCode}

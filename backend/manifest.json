@@ -1,0 +1,10 @@
+```json
+{
+  "type": "weather",
+  "elements": ["sun", "clouds", "rain"],
+  "interaction": "mouse click",
+  "colors": ["yellow", "white", "lightblue", "gray"],
+  "dimensions": [600, 400],
+  "features": ["animation", "conditional rendering"]
+}
+```
