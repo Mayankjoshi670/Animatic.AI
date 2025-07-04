@@ -1,0 +1,49 @@
+.file-explorer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.file-explorer-header {
+  height: 40px;
+  background-color: #2d2d30;
+  border-bottom: 1px solid #3e3e42;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  color: #cccccc;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.file-list {
+  flex: 1;
+  padding: 8px 0;
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: #cccccc;
+}
+
+.file-item:hover {
+  background-color: #2a2d2e;
+}
+
+.file-item.active {
+  background-color: #094771;
+  color: #ffffff;
+}
+
+.file-icon {
+  margin-right: 8px;
+  font-size: 16px;
+}
+
+.file-name {
+  font-size: 14px;
+}
