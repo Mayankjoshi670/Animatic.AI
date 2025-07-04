@@ -1,9 +1,11 @@
+
 import { useState, useRef } from "react"
 import Editor from "@monaco-editor/react"
 import ChatPanel from "./components/chatPanel"
 import CodeTabs from "./components/CodeTabs"
 import LivePreview from "./components/LivePreview"
 import Header from "./components/Header"
+import ResizablePane from "./components/ResizablePane"
 import type { FileType, ChatMessage } from "./types"
 import { defaultFiles } from "./defaultContent"
 import "./App.css"
@@ -12,6 +14,7 @@ function App() {
   const [files, setFiles] = useState<Record<FileType, string>>(defaultFiles)
   const [activeFile, setActiveFile] = useState<FileType>("index.html")
   const [previewKey, setPreviewKey] = useState(0)
+  const [isPreviewFullscreen, setIsPreviewFullscreen] = useState(false)
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
     {
       id: "1",
@@ -308,51 +311,84 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  if (isPreviewFullscreen) {
+    return (
+      <div className="fullscreen-preview">
+        <LivePreview
+          key={previewKey}
+          htmlContent={files["index.html"]}
+          cssContent={files["style.css"]}
+          jsContent={files["script.js"]}
+          isFullscreen={true}
+          onExitFullscreen={() => setIsPreviewFullscreen(false)}
+        />
+      </div>
+    )
+  }
+
   return (
     <div className="app">
       <Header />
       <div className="app-content">
-        <div className="chat-panel">
-          <ChatPanel messages={chatMessages} onSendMessage={handleSendMessage} isGenerating={isGenerating} />
-        </div>
-
-        <div className="editor-panel">
-          <CodeTabs activeFile={activeFile} onFileSelect={setActiveFile} />
-          <div className="editor-container">
-            <Editor
-              height="100%"
-              language={getLanguage(activeFile)}
-              value={files[activeFile]}
-              theme="vs-dark"
-              onChange={handleEditorChange}
-              onMount={handleEditorDidMount}
-              options={{
-                minimap: { enabled: false },
-                fontSize: 14,
-                lineNumbers: "on",
-                roundedSelection: false,
-                scrollBeyondLastLine: false,
-                automaticLayout: true,
-                tabSize: 2,
-                insertSpaces: true,
-                wordWrap: "on",
-                padding: { top: 16, bottom: 16 },
-              }}
-            />
-          </div>
-        </div>
-
-        <div className="preview-panel">
-          <div className="preview-header">
-            <span>Live Preview</span>
-          </div>
-          <LivePreview
-            key={previewKey}
-            htmlContent={files["index.html"]}
-            cssContent={files["style.css"]}
-            jsContent={files["script.js"]}
-          />
-        </div>
+        <ResizablePane
+          left={
+            <div className="chat-panel">
+              <ChatPanel messages={chatMessages} onSendMessage={handleSendMessage} isGenerating={isGenerating} />
+            </div>
+          }
+          center={
+            <div className="editor-panel">
+              <CodeTabs activeFile={activeFile} onFileSelect={setActiveFile} />
+              <div className="editor-container">
+                <Editor
+                  height="100%"
+                  language={getLanguage(activeFile)}
+                  value={files[activeFile]}
+                  theme="vs-dark"
+                  onChange={handleEditorChange}
+                  onMount={handleEditorDidMount}
+                  options={{
+                    minimap: { enabled: false },
+                    fontSize: 14,
+                    lineNumbers: "on",
+                    roundedSelection: false,
+                    scrollBeyondLastLine: false,
+                    automaticLayout: true,
+                    tabSize: 2,
+                    insertSpaces: true,
+                    wordWrap: "on",
+                    padding: { top: 16, bottom: 16 },
+                  }}
+                />
+              </div>
+            </div>
+          }
+          right={
+            <div className="preview-panel">
+              <div className="preview-header">
+                <span>Live Preview</span>
+                <button
+                  className="fullscreen-btn"
+                  onClick={() => setIsPreviewFullscreen(true)}
+                  title="Fullscreen Preview"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+                  </svg>
+                </button>
+              </div>
+              <LivePreview
+                key={previewKey}
+                htmlContent={files["index.html"]}
+                cssContent={files["style.css"]}
+                jsContent={files["script.js"]}
+                isFullscreen={false}
+                onExitFullscreen={() => {}}
+              />
+            </div>
+          }
+          defaultSizes={[30, 40, 30]}
+        />
       </div>
     </div>
   )

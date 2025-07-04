@@ -1,14 +1,21 @@
 import type React from "react"
 import { useMemo } from "react"
 import "./LivePreview.css"
-
 interface LivePreviewProps {
   htmlContent: string
   cssContent: string
   jsContent: string
+  isFullscreen?: boolean
+  onExitFullscreen?: () => void
 }
 
-const LivePreview: React.FC<LivePreviewProps> = ({ htmlContent, cssContent, jsContent }) => {
+const LivePreview: React.FC<LivePreviewProps> = ({
+  htmlContent,
+  cssContent,
+  jsContent,
+  isFullscreen = false,
+  onExitFullscreen,
+}) => {
   /* Build the complete HTML once per change */
   const srcDoc = useMemo(
     () => `<!DOCTYPE html>
@@ -35,6 +42,30 @@ const LivePreview: React.FC<LivePreviewProps> = ({ htmlContent, cssContent, jsCo
 </html>`,
     [htmlContent, cssContent, jsContent],
   )
+
+  if (isFullscreen) {
+    return (
+      <div className="fullscreen-preview-container">
+        <div className="fullscreen-header">
+          <span>Animation Preview - Fullscreen</span>
+          <button className="exit-fullscreen-btn" onClick={onExitFullscreen} title="Exit Fullscreen">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3" />
+            </svg>
+            <span>Exit Fullscreen</span>
+          </button>
+        </div>
+        <div className="fullscreen-preview-content">
+          <iframe
+            className="preview-iframe fullscreen-iframe"
+            title="Animation Preview"
+            sandbox="allow-scripts allow-same-origin"
+            srcDoc={srcDoc}
+          />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="live-preview">
