@@ -1,7 +1,10 @@
 {
-  "type": "geometric",
-  "visual_features": ["morphing", "gradient background"],
-  "required_interactions": ["mouse"],
-  "color_palette": ["#29ABE2", "#FFFFFF"],
-  "canvas_dimensions": [800, 600]
+  "title": "Early Morning Run",
+  "type": "character",
+  "features": ["character animation", "physics", "weather effects", "lighting", "gradients"],
+  "interactions": [],
+  "palette": ["#223355", "#445577", "#AA7744", "#FFAA55", "#FFFFFF"],
+  "dimensions": [800, 600],
+  "complexity": "complex",
+  "performance": "60fps target"
 }
