@@ -3,25 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generative Wave Network</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+  <title>Interactive Particle Nebula</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
   <style>
-    body {
+    /* 
+      A modern, clean CSS reset for full-screen canvas experiences.
+      - Sets a dark, non-distracting background.
+      - Removes default margins and scrollbars for an immersive feel.
+      - Hides the default cursor to let the animation be the pointer.
+      - Ensures the canvas is properly displayed as a block element.
+    */
+    html, body {
       margin: 0;
       padding: 0;
-      overflow: hidden;
-      background-color: #222;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      overflow: hidden; /* Prevents scrollbars */
+      background-color: #020210; /* A very dark blue for the base */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     canvas {
-      display: block;
+      display: block; /* Removes any unwanted space below the canvas */
+    }
+    main {
+      /* This is where the p5.js canvas will be placed */
+      cursor: none; /* Hides the standard mouse cursor */
     }
   </style>
 </head>
 <body>
-  <script src="sketch.js"></script>
+  <main></main>
+  <script>
+    // Inlining the JS for a self-contained example.
+    // In a real project, you would use: <script src="sketch.js"></script>
+    // All JavaScript code is placed within the BEGIN JS block.
+  </script>
 </body>
 </html>

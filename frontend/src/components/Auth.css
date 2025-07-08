@@ -1,0 +1,299 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #6b21a8, #1e3a8a, #4338ca);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  position: relative;
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.purpleCircle,
+.blueCircle {
+  position: absolute;
+  width: 20rem;
+  height: 20rem;
+  border-radius: 9999px;
+  filter: blur(64px);
+  opacity: 0.2;
+}
+
+.purpleCircle {
+  top: -10rem;
+  right: -10rem;
+  background-color: #8b5cf6;
+}
+
+.blueCircle {
+  bottom: -10rem;
+  left: -10rem;
+  background-color: #3b82f6;
+}
+
+.formWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 28rem;
+  z-index: 10;
+}
+
+.glassContainer {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.iconWrapper {
+  width: 4rem;
+  height: 4rem;
+  background: linear-gradient(to bottom right, #8b5cf6, #3b82f6);
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.icon {
+  color: white;
+  width: 2rem;
+  height: 2rem;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.socialGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.socialBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.github {
+  background-color: #1f2937;
+  color: white;
+}
+
+.github:hover {
+  background-color: #374151;
+}
+
+.google {
+  background-color: white;
+  color: #1f2937;
+}
+
+.google:hover {
+  background-color: #f9fafb;
+}
+
+.googleIcon {
+  color: #ef4444;
+}
+
+.socialIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 0.2s ease;
+}
+
+.socialBtn:hover .socialIcon {
+  transform: scale(1.1);
+}
+
+.divider {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+.line {
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  width: 100%;
+}
+
+.dividerText {
+  position: absolute;
+  top: -0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 1rem;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.inputIcon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255, 255, 255, 0.5);
+  width: 1.25rem;
+  height: 1.25rem;
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.75rem;
+  color: white;
+  font-size: 1rem;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.eyeButton {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+}
+
+.eyeIcon {
+  color: rgba(255, 255, 255, 0.5);
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: color 0.2s ease;
+}
+
+.eyeButton:hover .eyeIcon {
+  color: white;
+}
+
+.rememberRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox {
+  width: 1rem;
+  height: 1rem;
+}
+
+.checkboxText {
+  margin-left: 0.5rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.forgot {
+  font-size: 0.875rem;
+  color: #c084fc;
+  background: none;
+  border: none;
+  transition: color 0.2s;
+}
+
+.forgot:hover {
+  color: #d8b4fe;
+}
+
+.submitButton {
+  width: 100%;
+  background: linear-gradient(to right, #8b5cf6, #3b82f6);
+  color: white;
+  font-weight: 500;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.submitButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+.toggle {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+.toggleLink {
+  margin-left: 0.25rem;
+  color: #c084fc;
+  background: none;
+  border: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.toggleLink:hover {
+  color: #d8b4fe;
+}
+
+.terms {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.link {
+  color: #c084fc;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: #d8b4fe;
+}

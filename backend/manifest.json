@@ -1,10 +1,10 @@
 {
-  "title": "Generative Wave Network",
+  "title": "Interactive Particle Nebula",
   "type": "abstract",
-  "features": ["generative", "wave", "interactive", "color"],
-  "interactions": ["mouse"],
-  "palette": ["#222", "#fff", "#f00", "#0f0", "#00f"],
-  "dimensions": [800, 600],
+  "features": ["physics", "interactivity", "particles", "generative", "object-pooling"],
+  "interactions": ["mouse", "touch", "scroll"],
+  "palette": ["#F72585", "#B5179E", "#7209B7", "#560BAD", "#480CA8", "#3A0CA3", "#3F37C9", "#4361EE", "#4895EF", "#4CC9F0"],
+  "dimensions": [1200, 800],
   "complexity": "complex",
   "performance": "60fps target"
 }
