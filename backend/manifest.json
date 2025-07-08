@@ -1,10 +1,10 @@
 {
-  "title": "Early Morning Run",
-  "type": "character",
-  "features": ["character animation", "physics", "weather effects", "lighting", "gradients"],
+  "title": "Sunrise to Sunset",
+  "type": "nature",
+  "features": ["sun", "clouds", "rain", "gradient", "animation"],
   "interactions": [],
-  "palette": ["#223355", "#445577", "#AA7744", "#FFAA55", "#FFFFFF"],
+  "palette": ["#fdd835", "#f44336", "#90caf9", "#4fc3f7"],
   "dimensions": [800, 600],
-  "complexity": "complex",
+  "complexity": "medium",
   "performance": "60fps target"
 }

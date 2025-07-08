@@ -430,7 +430,7 @@ async function animationCode( prompt : string) {
   console.log(completePrompt) ;  
    const response = await ai.models.generateContentStream({
     model: 'gemini-2.0-flash-001',
-   // model:'gemini-1.5-pro', 
+  //  model:'gemini-1.5-pro', 
     contents:[ 
         {
             role: "user" , 
