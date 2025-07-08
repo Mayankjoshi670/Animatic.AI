@@ -1,7 +1,7 @@
 
 import { useState, useRef } from "react"
 import Editor from "@monaco-editor/react"
-import ChatPanel from "./components/chatPanel"
+import ChatPanel from "./components/ChatPanel"
 import CodeTabs from "./components/CodeTabs"
 import LivePreview from "./components/LivePreview"
 import Header from "./components/Header"
@@ -132,7 +132,7 @@ function App() {
 
   return (
     <div className="app">
-      <Header />
+      <Header  files = {files} />
       <div className="app-content">
         <ResizablePane
           left={

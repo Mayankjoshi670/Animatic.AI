@@ -419,7 +419,7 @@ Before delivering, ensure:
 - [ ] No p5.js function names are shadowed by variables
 
 Remember: Your goal is to create animations that are not just functional, but delightful and engaging. Users should feel impressed by both the visual quality and smooth interactivity.
-make sure you make best out of it use best css inside html 
+make sure you make best out of it use best css inside html  ** remember you are building this inside a canvas **
 `
 
 

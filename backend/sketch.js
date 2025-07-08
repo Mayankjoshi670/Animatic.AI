@@ -1,148 +1,81 @@
-let sun;
-let clouds = [];
-let rain = [];
-let bgColor;
+let waves = [];
+let numWaves = 10;
+let waveDetail = 50;
+let waveSpeed = 0.01;
+let waveAmplitude = 50;
+let waveFrequency = 0.02;
+let baseColor;
+let mouseInfluenceRadius = 100;
+let mouseInfluenceStrength = 0.5;
 
 function setup() {
   createCanvas(800, 600);
-  frameRate(60);
-  sun = new Sun();
-  bgColor = color(135, 206, 235); // Light sky blue
-  for (let i = 0; i < 5; i++) {
-    clouds.push(new Cloud(random(width), random(height / 2)));
+  baseColor = color(255);
+  colorMode(HSB, 360, 100, 100, 1);
+  for (let i = 0; i < numWaves; i++) {
+    waves.push(new Wave(i * 20, random(360), random(0.005, 0.015)));
   }
 }
 
 function draw() {
-  background(bgColor);
-  updateBackground();
+  background(color(200, 10, 10, 0.05));
+  
+  for (let wave of waves) {
+    wave.update();
+    wave.display();
+  }
 
-  sun.update();
-  sun.display();
+    // Debugging info (optional)
+  // fill(255);
+  // textSize(12);
+  // text(`FPS: ${frameRate().toFixed(1)}`, 10, 20);
+}
 
-  for (let cloud of clouds) {
-    cloud.update();
-    cloud.display();
-    if (random(1) < 0.01) { // 1% chance of rain per frame for each cloud
-      cloud.startRaining();
+class Wave {
+  constructor(yOffset, hue, speed) {
+    this.yOffset = yOffset;
+    this.hue = hue;
+    this.speed = speed;
+    this.segments = [];
+    for (let i = 0; i <= waveDetail; i++) {
+      this.segments.push(0);
     }
-    cloud.showRain();
-  }
-}
-
-function updateBackground() {
-  let sunPositionRatio = map(sun.x, 0, width, 0, 1);
-  let morningColor = color(255, 248, 220); // Light goldenrod yellow
-  let noonColor = color(135, 206, 235);   // Light sky blue
-  let eveningColor = color(255, 160, 122); // Light Salmon
-  let nightColor = color(40, 40, 80);       // Dark blue-gray
-
-  if (sunPositionRatio < 0.25) {
-    // Morning transition
-    bgColor = lerpColor(nightColor, morningColor, map(sunPositionRatio, 0, 0.25, 0, 1));
-  } else if (sunPositionRatio < 0.5) {
-    // Daytime
-    bgColor = lerpColor(morningColor, noonColor, map(sunPositionRatio, 0.25, 0.5, 0, 1));
-  } else if (sunPositionRatio < 0.75) {
-    // Evening
-    bgColor = lerpColor(noonColor, eveningColor, map(sunPositionRatio, 0.5, 0.75, 0, 1));
-  } else {
-    // Night transition
-    bgColor = lerpColor(eveningColor, nightColor, map(sunPositionRatio, 0.75, 1, 0, 1));
-  }
-}
-
-
-class Sun {
-  constructor() {
-    this.x = -50;
-    this.y = height / 4;
-    this.size = 80;
-    this.speed = 0.5;
   }
 
   update() {
-    this.x += this.speed;
-    if (this.x > width + 50) {
-      this.x = -50;
-    }
-  }
+    this.hue = (this.hue + this.speed * 2) % 360;
 
-  display() {
-    fill(255, 204, 0);
-    noStroke();
-    ellipse(this.x, this.y, this.size, this.size);
-  }
-}
+    for (let i = 0; i <= waveDetail; i++) {
+      let x = map(i, 0, waveDetail, 0, width);
+      let angle = x * waveFrequency + frameCount * this.speed;
+      let baseHeight = height / 2 + this.yOffset;
+      let waveHeight = sin(angle) * waveAmplitude;
 
-class Cloud {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.speed = random(0.1, 0.5);
-    this.cloudColor = color(255, 255, 255, 200);
-    this.rain = [];
-    this.isRaining = false;
-  }
-
-  update() {
-    this.x += this.speed;
-    if (this.x > width + 100) {
-      this.x = -100;
-    }
-  }
-
-  display() {
-    fill(this.cloudColor);
-    noStroke();
-    ellipse(this.x, this.y, 80, 60);
-    ellipse(this.x + 30, this.y + 10, 70, 50);
-    ellipse(this.x + 60, this.y - 10, 60, 40);
-  }
-
-  startRaining() {
-    this.isRaining = true;
-    if (this.rain.length === 0) {
-      for (let i = 0; i < 50; i++) {
-        this.rain.push(new Raindrop(this.x + random(80), this.y + random(20)));
+      // Mouse interaction
+      let distance = dist(x, baseHeight + waveHeight, mouseX, mouseY);
+      if (distance < mouseInfluenceRadius) {
+        let influence = map(distance, 0, mouseInfluenceRadius, mouseInfluenceStrength, 0);
+        waveHeight += (mouseY - (baseHeight + waveHeight)) * influence;
       }
+
+      this.segments[i] = baseHeight + waveHeight;
     }
-  }
-
-  showRain() {
-    if (this.isRaining) {
-      for (let i = this.rain.length - 1; i >= 0; i--) {
-        let raindrop = this.rain[i];
-        raindrop.update();
-        raindrop.display();
-        if (raindrop.isOffScreen()) {
-          this.rain.splice(i, 1);
-          this.rain.push(new Raindrop(this.x + random(80), this.y + random(20)));
-        }
-      }
-    }
-  }
-}
-
-class Raindrop {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-    this.speed = random(5, 10);
-    this.length = random(10, 20);
-  }
-
-  update() {
-    this.y += this.speed;
   }
 
   display() {
-    stroke(135, 206, 235, 150);
+    noFill();
     strokeWeight(2);
-    line(this.x, this.y, this.x, this.y + this.length);
-  }
-
-  isOffScreen() {
-    return this.y > height;
+    beginShape();
+    for (let i = 0; i <= waveDetail; i++) {
+      let x = map(i, 0, waveDetail, 0, width);
+      let y = this.segments[i];
+      stroke(this.hue, 100, 100, 0.8);
+      vertex(x, y);
+    }
+    endShape();
   }
 }
+
+function windowResized() {
+    resizeCanvas(800, 600);
+  }

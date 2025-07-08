@@ -1,10 +1,37 @@
 import { Download, Github, Share } from "lucide-react"
 import "./Header.css"
-
-const Header = () => {
+type HeaderProps = {
+  files : Record<string , string>
+}
+const Header = ({files}:HeaderProps) => {
+  //  at first get data and then call backend request i dont know but  i have to do this shit 
   const downloadAsZip = async () => {
-    // This would be implemented with the actual file contents
-    console.log("Download ZIP functionality")
+  try{
+  const body = {
+      html: files["index.html"] || "",
+      css: files["style.css"] || "",
+      js: files["script.js"] || "", 
+    };
+const response = await fetch("http://localhost:5000/api/animations/download-zip", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(body)
+});
+
+if(!response.ok)throw new Error("failed to download zip ") ; 
+const blob = await response.blob() ; 
+const url = URL.createObjectURL(blob) ; 
+const a = document.createElement("a") ; 
+a.href = url  ; 
+a.download = "animation.zip" ; 
+a.click() ; 
+ URL.revokeObjectURL(url)
+  }
+  catch(error){
+    console.log("download Error" , error) ; 
+  }
   }
 
   return (

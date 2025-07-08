@@ -1,10 +1,10 @@
 {
-  "title": "Sunrise to Sunset",
-  "type": "nature",
-  "features": ["sun", "clouds", "rain", "gradient", "animation"],
-  "interactions": [],
-  "palette": ["#fdd835", "#f44336", "#90caf9", "#4fc3f7"],
+  "title": "Generative Wave Network",
+  "type": "abstract",
+  "features": ["generative", "wave", "interactive", "color"],
+  "interactions": ["mouse"],
+  "palette": ["#222", "#fff", "#f00", "#0f0", "#00f"],
   "dimensions": [800, 600],
-  "complexity": "medium",
+  "complexity": "complex",
   "performance": "60fps target"
 }
