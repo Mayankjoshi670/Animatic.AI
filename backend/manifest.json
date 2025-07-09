@@ -1,9 +1,9 @@
 {
-  "title": "Joke Sharing Characters",
-  "type": "character",
-  "features": ["animation", "expressions", "dialogue"],
+  "title": "Morphing Shape",
+  "type": "abstract",
+  "features": ["shape", "morphing", "animation"],
   "interactions": [],
-  "palette": ["#3498db", "#e74c3c", "#f39c12", "#ecf0f1"],
+  "palette": ["#FF5733", "#33FF57", "#3357FF"],
   "dimensions": [800, 600],
   "complexity": "medium",
   "performance": "60fps target"

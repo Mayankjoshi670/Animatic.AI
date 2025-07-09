@@ -15,7 +15,7 @@ export const signup = async (req: Request, res: Response) => {
     name,
     email,
     password: hashedPassword,
-    provider: "local",
+    provider: "manual",
   });
 
   const token = generateToken(user._id.toString());

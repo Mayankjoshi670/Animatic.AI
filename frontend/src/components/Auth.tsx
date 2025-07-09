@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Github, Mail, Lock, User, Chrome } from 'lucide-react';
 import "./Auth.css";
 
-const AuthPage: React.FC<{ onAuthSuccess: () => void }> = ({ onAuthSuccess }) => {
-  const [isLogin, setIsLogin] = useState(true);
+interface AuthPageProps {
+  onAuthSuccess: () => void;
+  isSignup?: boolean;
+}
+
+const AuthPage: React.FC<AuthPageProps> = ({ onAuthSuccess, isSignup = false }) => {
+  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(!isSignup);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -12,19 +19,68 @@ const AuthPage: React.FC<{ onAuthSuccess: () => void }> = ({ onAuthSuccess }) =>
     password: '',
     confirmPassword: '',
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const BACKEND_URL = 'http://localhost:5000';
+
+  // Handle social login redirect with token in URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    if (token) {
+      localStorage.setItem('token', token);
+      onAuthSuccess();
+      window.history.replaceState({}, document.title, window.location.pathname);
+      navigate('/editor', { replace: true });
+    }
+  }, [onAuthSuccess, navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = () => {
-    console.log('Form submitted:', formData);
-    // Simulate successful verification
-    onAuthSuccess();
+  const handleSubmit = async () => {
+    setError(null);
+    setLoading(true);
+    try {
+      let url = isLogin ? `${BACKEND_URL}/api/auth/login` : `${BACKEND_URL}/api/auth/signup`;
+      let body: any = {
+        email: formData.email,
+        password: formData.password,
+      };
+      if (!isLogin) {
+        body.name = formData.name;
+        if (formData.password !== formData.confirmPassword) {
+          setError('Passwords do not match');
+          setLoading(false);
+          return;
+        }
+      }
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        setError(data.message || 'Authentication failed');
+        setLoading(false);
+        return;
+      }
+      localStorage.setItem('token', data.token);
+      onAuthSuccess();
+      navigate('/editor', { replace: true });
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSocialLogin = (provider: string) => {
-    console.log(`${provider} login clicked`);
+    const temp = `${BACKEND_URL}/api/auth/${provider.toLowerCase()}`;
+    window.location.href = temp;
   };
 
   return (
@@ -159,8 +215,9 @@ const AuthPage: React.FC<{ onAuthSuccess: () => void }> = ({ onAuthSuccess }) =>
               </div>
             )}
 
-            <button type="button" onClick={handleSubmit} className="submitButton">
-              {isLogin ? 'Sign In' : 'Create Account'}
+            {error && <div className="error-message">{error}</div>}
+            <button type="button" onClick={handleSubmit} className="submitButton" disabled={loading}>
+              {loading ? (isLogin ? 'Signing In...' : 'Creating Account...') : (isLogin ? 'Sign In' : 'Create Account')}
             </button>
           </div>
 
