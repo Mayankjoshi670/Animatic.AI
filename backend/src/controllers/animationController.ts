@@ -7,12 +7,13 @@ export const generateCode = async (req: Request, res: Response) => {
     if (!prompt) {
         res.status(400).json({ message: "Prompt is required" });
     }
+else{
 
-    const llmOutput = await animationCode(prompt)  ; 
-    console.log("now parsing and generating file")
-    //  send this code to parser which is in parser.ts 
+  const llmOutput = await animationCode(prompt)  ; 
+  console.log("now parsing and generating file")
+  //  send this code to parser which is in parser.ts 
 
- 
+  
   const { html, js, manifest } = parseAnimationOutput(llmOutput);
   
   // Save to files (Node.js example)
@@ -24,14 +25,15 @@ export const generateCode = async (req: Request, res: Response) => {
   }
   
   console.log('Files saved successfully!');
- 
-    
-      res.status(200).json({ 
-        html , 
-        js , manifest
-       });
-  } catch (error) {
-    console.error(error);
-      res.status(500).json({ message: "Failed to generate animation", error});
-  }
+  
+  
+  res.status(200).json({ 
+    html , 
+    js , manifest
+  });
+}
+} catch (error) {
+  console.error(error);
+  res.status(500).json({ message: "Failed to generate animation", error});
+}
 };

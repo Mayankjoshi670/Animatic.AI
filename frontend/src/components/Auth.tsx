@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Eye, EyeOff, Github, Mail, Lock, User, Chrome } from 'lucide-react';
 import "./Auth.css";
 
-const AuthPage: React.FC = () => {
+const AuthPage: React.FC<{ onAuthSuccess: () => void }> = ({ onAuthSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -19,6 +19,8 @@ const AuthPage: React.FC = () => {
 
   const handleSubmit = () => {
     console.log('Form submitted:', formData);
+    // Simulate successful verification
+    onAuthSuccess();
   };
 
   const handleSocialLogin = (provider: string) => {

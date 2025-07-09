@@ -429,10 +429,15 @@ async function animationCode( prompt : string) {
   const completePrompt =   `${systemPrompt} \n\n user Prompt : ${prompt}` ; 
   console.log(completePrompt) ;  
    const response = await ai.models.generateContentStream({
-    // model: 'gemini-2.0-flash-001',
+    model: 'gemini-2.0-flash-001',
   // model :'gemini-1.5-flash',
   // model : 'gemini-2.5-flash',
-  model : 'gemini-2.5-pro',
+
+
+
+  //  this is the main llm 
+
+  // model : 'gemini-2.5-pro',
     contents:[ 
         {
             role: "user" , 

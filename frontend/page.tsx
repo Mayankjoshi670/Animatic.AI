@@ -1,9 +1,14 @@
-import React, { Suspense, lazy } from "react";
-
-// Lazy load your component
+import React, { Suspense, lazy, useState } from "react";
 const AnimationEditor = lazy(() => import("./src/App"));
+import AuthPage from "./src/components/Auth";
 
 export default function Page() {
+  const [isVerified, setIsVerified] = useState(false);
+
+  if (!isVerified) {
+    return <AuthPage onAuthSuccess={() => setIsVerified(true)} />;
+  }
+
   return (
     <Suspense
       fallback={
