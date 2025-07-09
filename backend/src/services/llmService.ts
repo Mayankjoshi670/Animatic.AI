@@ -216,7 +216,7 @@ For every animation request, provide exactly THREE sections with these delimiter
   "features": ["physics", "interactivity", "particles"],
   "interactions": ["mouse", "keyboard", "touch"],
   "palette": ["#hex1", "#hex2", "#hex3"],
-  "dimensions": [800, 600],
+  "dimensions": ["responsive", "fullscreen"],
   "complexity": "simple|medium|complex",
   "performance": "60fps target"
 }
@@ -232,8 +232,20 @@ For every animation request, provide exactly THREE sections with these delimiter
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
   <style>
 //    add all css here 
-    body { margin: 0; padding: 0; overflow: hidden; background: #000; }
-    canvas { display: block; }
+   html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+
   </style>
 </head>
 <body>
@@ -383,7 +395,9 @@ class ParticleSystem {
 - **Interactive Elements**: Include hover effects, click responses, keyboard controls
 - **Visual Storytelling**: Create scenes that tell a story or evoke emotion
 
- 
+### Technical Excellence Standards
+
+ - **Always use createCanvas(windowWidth, windowHeight) and implement windowResized() with resizeCanvas(windowWidth, windowHeight) to ensure animations are fully responsive to screen size changes.
 ## Mobile & Accessibility Considerations
 
 "javascript
