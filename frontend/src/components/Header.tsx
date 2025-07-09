@@ -1,5 +1,6 @@
-import { Download, Github, Share } from "lucide-react"
+import { Download, Github, Share, LogOut } from "lucide-react"
 import "./Header.css"
+import { useNavigate } from "react-router-dom";
 type HeaderProps = {
   files : Record<string , string>
 }
@@ -34,6 +35,13 @@ a.click() ;
   }
   }
 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login', { replace: true });
+  };
+
   return (
     <header className="header">
       <div className="header-left">
@@ -56,8 +64,8 @@ a.click() ;
         <button className="header-btn" title="Share">
           <Share size={16} />
         </button>
-        <button className="header-btn" title="View on GitHub">
-          <Github size={16} />
+        <button className="header-btn" onClick={handleLogout} title="Logout">
+          <LogOut size={16} />
         </button>
       </div>
     </header>
