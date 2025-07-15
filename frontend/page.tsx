@@ -1,15 +1,13 @@
-import { lazy, Suspense, useState, useEffect, type JSX } from "react";
+import { lazy, Suspense, useEffect, type JSX } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 const AnimationEditor = lazy(() => import("./src/App"));
 import AuthPage from "./src/components/Auth";
 import OAuthHandler from "./src/components/OAuthHandler";
 
 export default function Page() {
-  const [isVerified, setIsVerified] = useState(false);
-
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) setIsVerified(true);
+    // No need to set isVerified, just check token where needed
   }, []);
 
   const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
@@ -43,11 +41,11 @@ export default function Page() {
         <Route path="/" element={<OAuthHandler />} />
         <Route
           path="/login"
-          element={<AuthPage onAuthSuccess={() => setIsVerified(true)} />}
+          element={<AuthPage onAuthSuccess={() => {}} />}
         />
         <Route
           path="/signup"
-          element={<AuthPage onAuthSuccess={() => setIsVerified(true)} isSignup />}
+          element={<AuthPage onAuthSuccess={() => {}} isSignup />}
         />
         <Route
           path="/editor"

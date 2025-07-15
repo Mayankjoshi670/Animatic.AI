@@ -1,4 +1,4 @@
-import { Download, Github, Share, LogOut } from "lucide-react"
+import { Download, Share, LogOut } from "lucide-react"
 import "./Header.css"
 import { useNavigate } from "react-router-dom";
 type HeaderProps = {

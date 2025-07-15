@@ -3,45 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Snake and Ladder</title>
+  <title>Morphing Shape</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
   <style>
-    body {
+    html, body {
       margin: 0;
       padding: 0;
       overflow: hidden;
-      background-color: #ADD8E6; /* Light Blue Background */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      background-color: #222;
     }
-
     canvas {
       display: block;
-      border: 2px solid #8B4513; /* Brown Border */
-      box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3); /* Subtle Shadow */
-    }
-
-    #game-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #message {
-        font-family: sans-serif;
-        font-size: 1.2em;
-        margin-bottom: 10px;
-        color: #8B4513; /* Brown Text */
     }
   </style>
 </head>
 <body>
-    <div id="game-container">
-        <div id="message"></div>
-        <canvas></canvas>
-    </div>
   <script src="sketch.js"></script>
 </body>
 </html>

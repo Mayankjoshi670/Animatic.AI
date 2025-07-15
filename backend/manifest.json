@@ -1,10 +1,10 @@
 {
-  "title": "Snake and Ladder Game",
-  "type": "game",
-  "features": ["grid-based movement", "dice rolling", "animated snakes/ladders", "two-player"],
-  "interactions": ["mouse click (dice)", "keyboard (player turns)"],
-  "palette": ["#228B22", "#ADD8E6", "#8B4513", "#FF4500"],
-  "dimensions": [600, 600],
-  "complexity": "complex",
+  "title": "Morphing Shape",
+  "type": "abstract",
+  "features": ["shape morphing", "bezier curves", "smooth animation"],
+  "interactions": [],
+  "palette": ["#FF5733", "#33FF57", "#3357FF"],
+  "dimensions": ["responsive", "fullscreen"],
+  "complexity": "medium",
   "performance": "60fps target"
 }
