@@ -67,15 +67,13 @@ function App() {
 
     // Simulate AI response with animation generation
     try {
-  const response =  
-  // await fetch("/api/generate-animation", {
-  await fetch("http://localhost:5000/api/animations/generate",{
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ prompt: message }),
-  })
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/animations/generate`,{
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt: message }),
+      })
 
   if (!response.ok) {
     throw new Error("Failed to generate animation")

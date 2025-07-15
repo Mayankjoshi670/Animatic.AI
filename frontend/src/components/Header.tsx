@@ -13,7 +13,7 @@ const Header = ({files}:HeaderProps) => {
       css: files["style.css"] || "",
       js: files["script.js"] || "", 
     };
-const response = await fetch("http://localhost:5000/api/animations/download-zip", {
+const response = await fetch(`${import.meta.env.VITE_API_URL}/api/animations/download-zip`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",

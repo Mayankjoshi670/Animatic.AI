@@ -6,8 +6,7 @@ import OAuthHandler from "./src/components/OAuthHandler";
 
 export default function Page() {
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    // No need to set isVerified, just check token where needed
+    // Removed unused 'token' variable
   }, []);
 
   const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
